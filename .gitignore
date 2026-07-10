@@ -1,0 +1,36 @@
+# =========================
+# Python & Environnement
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+env/
+.venv/
+
+# =========================
+# Jupyter Notebooks
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Données (Très important !)
+# =========================
+# On ignore tout le contenu du dossier data, sauf d'éventuels fichiers .gitkeep
+data/raw/*
+data/processed/*
+data/interim/*
+!data/**/.gitkeep
+
+# =========================
+# Rapports générés & Outputs
+# =========================
+# Optionnel : décommenter si tu ne veux pas pousser les gros rapports HTML sur Github
+# reports/figures/*.html 
+
+# =========================
+# OS générés (Mac/Windows)
+# =========================
+.DS_Store
+Thumbs.db
