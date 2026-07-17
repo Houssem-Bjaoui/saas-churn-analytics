@@ -23,7 +23,6 @@ used for the sklearn preprocessing pipeline.
 """
 
 import pandas as pd
-import numpy as np
 
 
 def fit_feature_stats(df: pd.DataFrame, target_col: str = "Churn") -> dict:
@@ -40,9 +39,11 @@ def fit_feature_stats(df: pd.DataFrame, target_col: str = "Churn") -> dict:
     stats["engagement_cols"] = engagement_cols
     stats["engagement_mean"] = df[engagement_cols].mean().to_dict()
     stats["engagement_std"] = df[engagement_cols].std().to_dict()
+    stats["engagement_median"] = df[engagement_cols].mean(axis=1).median()
 
     # --- Value segmentation cutoffs (quantiles) for MonthlyCharges ---
     stats["monthly_charges_q75"] = df["MonthlyCharges"].quantile(0.75)
+    stats["support_tickets_q75"] = df["SupportTicketsPerMonth"].quantile(0.75)
 
     # --- Target encoding: average churn rate per category, learned on
     # train only. Smoothing (Bayesian-style) prevents overfitting on
@@ -113,7 +114,7 @@ def apply_feature_engineering(df: pd.DataFrame, stats: dict) -> pd.DataFrame:
 
     # Binary low-engagement flag, using the composite score rather than
     # a single raw metric — more robust to noise in any one dimension.
-    df["is_low_engagement"] = (df["engagement_score"] < df["engagement_score"].median()).astype(int)
+    df["is_low_engagement"] = (df["engagement_score"] < stats["engagement_median"]).astype(int)
 
     # ============================================================
     # 3. VALUE / PRICE-SENSITIVITY FEATURES
@@ -141,7 +142,7 @@ def apply_feature_engineering(df: pd.DataFrame, stats: dict) -> pd.DataFrame:
 
     df["tickets_per_tenure_month"] = df["SupportTicketsPerMonth"] / df["AccountAge"].clip(lower=1)
     df["is_high_support_friction"] = (
-        df["SupportTicketsPerMonth"] > df["SupportTicketsPerMonth"].quantile(0.75)
+        df["SupportTicketsPerMonth"] > stats["support_tickets_q75"]
     ).astype(int)
 
     # ============================================================
