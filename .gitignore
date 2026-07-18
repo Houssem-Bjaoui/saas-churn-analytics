@@ -18,10 +18,24 @@ env/
 # Données (Très important !)
 # =========================
 # On ignore tout le contenu du dossier data, sauf d'éventuels fichiers .gitkeep
+data/raw/*.csv
 data/raw/*
 data/processed/*
 data/interim/*
 !data/**/.gitkeep
+
+# =========================
+# Modèles entraînés
+# =========================
+models/*.pkl
+models/*.joblib
+
+# =========================
+# Caches & outils Python
+# =========================
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # =========================
 # Rapports générés & Outputs
