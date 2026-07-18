@@ -114,7 +114,7 @@ Open the notebooks in order from `notebooks/01_data_understanding.ipynb` to `not
 - Jupyter Notebook
 
 ## Project Status
-Completed end-to-end portfolio project with:
+Completed end-to-end project with:
 
 - cleaned and analyzed data
 - engineered features
